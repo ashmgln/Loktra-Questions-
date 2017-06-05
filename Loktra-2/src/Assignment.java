@@ -165,8 +165,9 @@ class GUI implements ActionListener{
 				return;
 			}
 			
-			
-			Document doc=Jsoup.connect("http://www.shopping.com/"+searchTag.getText()+"/products~PG-"+page.getText()+"?KW="+searchTag.getText()+"&nc=1").get();
+			String url="http://www.shopping.com/"+searchTag.getText()+"/products~PG-"+page.getText()+"?KW="+searchTag.getText()+"";
+			System.out.println(url);
+			Document doc=Jsoup.connect(url).get();
 			Elements grid=doc.getElementsByClass("gridItemBtm");
 			int count =1;
 			Vector<Vector<String>> data=new Vector<Vector<String>>();
@@ -176,10 +177,16 @@ class GUI implements ActionListener{
 				Elements names=eachGrid.getElementsByClass("quickLookGridItemFullName hide");
 				Element name=names.first();
 				Vector<String> rowData=new Vector<String>();
-				Element priceSpan=eachGrid.getElementById("priceClickableQA"+count);
+				Elements priceSpan;
+				try{
+					priceSpan=eachGrid.getElementsByClass("productPrice");
+				}
+				catch(NullPointerException e){
+					priceSpan=eachGrid.getElementsByClass("priceProductQA"+count);
+				}
 				rowData.add(name.text());
-				rowData.add(priceSpan.text());
-				System.out.println(priceSpan.text());
+				rowData.add(priceSpan.first().text());
+				System.out.println(priceSpan.first().text());
 				
 				
 				System.out.println("\n\n");
