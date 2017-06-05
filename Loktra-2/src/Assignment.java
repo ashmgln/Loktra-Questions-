@@ -46,14 +46,14 @@ class GUI implements ActionListener{
 		submit=new JButton("Search");
 		submit.setBounds(100,120,100,30);
 		search.add(submit);
-		
+
 		searchTag=new JTextField("Enter Keyword Here");
 		searchTag.setForeground(Color.GRAY);
 		searchTag.setFocusable(true);
 		searchTag.setToolTipText("Enter Keyword Here");
 		searchTag.setBounds(375,50,200,30);
 		searchTag.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
@@ -62,7 +62,7 @@ class GUI implements ActionListener{
 					searchTag.setText("Enter Keyword Here");
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
@@ -70,18 +70,18 @@ class GUI implements ActionListener{
 				searchTag.setText("");
 			}
 		});
-		
-		
-		
-		
-		
+
+
+
+
+
 		page=new JTextField("Enter Page Number Here");
 		page.setForeground(Color.GRAY);
 		page.setFocusable(true);
 		page.setToolTipText("Enter Page Number Here");
 		page.setBounds(375,80,200,30);
 		page.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
@@ -90,7 +90,7 @@ class GUI implements ActionListener{
 					page.setText("Enter Page Number Here");
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
@@ -98,28 +98,28 @@ class GUI implements ActionListener{
 				page.setText("");
 			}
 		});
-		
-		
-		
-		
+
+
+
+
 		pane=new JPanel();
 		pane.setBounds(50,250,800,500);
 		pane.setVisible(false);
-		
-		
-		
+
+
+
 		fr.add(pane);
 		fr.add(searchTag);
 		fr.add(page);
 		fr.add(kw);
 		fr.add(pn);
 		fr.add(submit);
-		
-		
-		kw.addActionListener(this);		
-		pn.addActionListener(this);	
+
+
+		kw.addActionListener(this);
+		pn.addActionListener(this);
 		submit.addActionListener(this);
-		
+
 		fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fr.setVisible(true);
 	}
@@ -127,9 +127,9 @@ class GUI implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
-		
-		
+
+
+
 		if(e.getActionCommand().equals("Keyword Search")){
 			searchTag.requestFocus();
 			page.setEnabled(false);
@@ -137,7 +137,7 @@ class GUI implements ActionListener{
 		else if(e.getActionCommand().equals("Keyword Search on a particular page")){
 			searchTag.requestFocus();
 			page.setEnabled(true);
-			
+
 		}
 		else if(e.getActionCommand().equals("Search")){
 			if(kw.isSelected())
@@ -149,13 +149,13 @@ class GUI implements ActionListener{
 				JOptionPane.showMessageDialog(fr, "Kindly Select an Option");
 			}
 		}
-		
-		
+
+
 	}
 	private void displayResultsOnPage() {
 		// TODO Auto-generated method stub
 		try{
-			
+
 			if(searchTag.getText().isEmpty() ||searchTag.getText().equals("Enter Keyword Here")){
 				JOptionPane.showMessageDialog(fr, "Kindly fill the keyword to be searched");
 				return;
@@ -164,16 +164,16 @@ class GUI implements ActionListener{
 				JOptionPane.showMessageDialog(fr, "Kindly fill the page number to be searched");
 				return;
 			}
-			
+
 			String url="http://www.shopping.com/"+searchTag.getText()+"/products~PG-"+page.getText()+"?KW="+searchTag.getText()+"";
-			System.out.println(url);
+			//System.out.println(url);
 			Document doc=Jsoup.connect(url).get();
 			Elements grid=doc.getElementsByClass("gridItemBtm");
 			int count =1;
 			Vector<Vector<String>> data=new Vector<Vector<String>>();
 			for(Element eachGrid : grid){
-				System.out.println(eachGrid.toString());
-				
+				//System.out.println(eachGrid.toString());
+
 				Elements names=eachGrid.getElementsByClass("quickLookGridItemFullName hide");
 				Element name=names.first();
 				Vector<String> rowData=new Vector<String>();
@@ -186,34 +186,34 @@ class GUI implements ActionListener{
 				}
 				rowData.add(name.text());
 				rowData.add(priceSpan.first().text());
-				System.out.println(priceSpan.first().text());
-				
-				
+				//System.out.println(priceSpan.first().text());
+
+
 				System.out.println("\n\n");
 				count++;
-				
-				
+
+
 				data.add(rowData);
-				
-				
-				
-				
+
+
+
+
 			}
-			
+
 			Vector<String> column=new Vector<String>();
 			column.add("Product Name");
 			column.add("Product Price");
-			
+
 			pane.removeAll();
-			
+
 			if(count==1){
 				JOptionPane.showMessageDialog(fr, "Sorry, no results found for "+searchTag.getText()+" on Page Number "+page.getText());
 			}
-			
+
 			JTable table=new JTable(data,column);
 			JScrollPane jsp=new JScrollPane(table);
 			System.out.println("count value "+count);
-			
+
 			pane.add(jsp);
 			pane.setVisible(true);
 			fr.repaint();
@@ -234,11 +234,11 @@ class GUI implements ActionListener{
 		try{
 			if(searchTag.getText().isEmpty() || searchTag.getText().equals("Enter Keyword Here")){
 				JOptionPane.showMessageDialog(fr, "Kindly fill the keyword to be searched !!");
-				searchTag.requestFocus();
+				//searchTag.requestFocus();
 				return;
 			}
 			Document doc=Jsoup.connect("http://www.shopping.com/"+searchTag.getText()+"/products?CLT=SCH&KW="+searchTag.getText()).get();
-			
+
 			Element item=doc.getElementById("sortFiltersBox");
 			//System.out.println("      Results     "+item.toString());
 			Elements span3=item.getElementsByTag("span");
@@ -247,7 +247,7 @@ class GUI implements ActionListener{
 			int start=numItems.indexOf(':');
 			int end = numItems.indexOf('>');
 			int results=0;
-			
+
 			//System.out.println("Start  "+start+"   End   "+end);
 			start++;
 			while(start<end-1){
@@ -256,7 +256,7 @@ class GUI implements ActionListener{
 			}
 			System.out.println(""+results);
 			JOptionPane.showMessageDialog(fr, "We found "+results+" results for "+searchTag.getText()+" on www.shopping.com","Search Results for "+searchTag.getText(),1);
-			
+
 		}
 		catch(UnknownHostException e){
 			JOptionPane.showMessageDialog(fr, "Make sure you are connected to internet",e.getMessage(),0);
@@ -268,14 +268,14 @@ class GUI implements ActionListener{
 			System.out.println(e);
 		}
 	}
-	
-	
+
+
 }
 
 public class Assignment{
-	
+
 	public static void main(String[] args) throws IOException{
 		new GUI();
-		
+
 	}
 }
