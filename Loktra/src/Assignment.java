@@ -19,11 +19,10 @@ class HashGame{
 		try{ //Checking if the string contains a valid long value
 			hashed=Long.parseLong(value);
 		}catch(Exception e){
-			System.out.println("Kindly check the value you entered and try again");
-			return null;
+		return null;
 		}
 		String newString="";
-		while(hashed!= 7){
+		while(hashed> 7){
 			int i;
 			
 			//We will divide the index of each character and check if it is divisible by 37 or not
@@ -40,12 +39,14 @@ class HashGame{
 				}
 			}
 			if(flag==0){
-				System.out.println("No string found for this value");
+		
 				return null;
 			}
 		}
 		if(newString.isEmpty()==false)
 			newString=reverseString(newString);
+		else
+			newString=null;
 		return newString;
 	}
 	
@@ -59,5 +60,7 @@ public class Assignment{
 		if(result!=null){
 			System.out.println("The String is "+result);
 		}
+		else
+			System.out.println("No String found for this value");
 	}
 }
