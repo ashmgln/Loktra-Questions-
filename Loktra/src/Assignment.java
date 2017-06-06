@@ -22,6 +22,8 @@ class HashGame{
 		return null;
 		}
 		String newString="";
+		if(hashed<259)
+			return null;
 		while(hashed> 7){
 			int i;
 			
