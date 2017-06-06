@@ -23,8 +23,7 @@ Loktra:
 
 
 Loktra-2
-	Assignment.java (Loktra-2\src\Assignment.java) contains the main function
-	jsoup-1.10.2.jar(Loktra-2\UsedLibrary\jsoup-1.10.2.jar)
+	Assignment.java (Loktra-2\src\Assignment.java) contains the main function,  jsoup-1.10.2.jar(Loktra-2\UsedLibrary\jsoup-1.10.2.jar)
 	
 	
 	It contains a GUI with two radio buttons, namely
